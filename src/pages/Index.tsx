@@ -50,14 +50,21 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="py-8 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-          JET POTENTIAL <span className="text-blue-400">'25</span>
-        </h1>
-        <p className="text-slate-300 max-w-2xl mx-auto px-4">
+        <div className="mb-8">
+          <img 
+            src="/lovable-uploads/da7037b6-051b-490c-b959-3138ece468bf.png" 
+            alt="Jet Potential Logo" 
+            className="mx-auto h-32 md:h-48 w-auto animate-pulse-glow"
+          />
+        </div>
+        <h1 className="text-2xl md:text-3xl font-bold gradient-text mb-4">
           A flagship event for tech enthusiasts
+        </h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto px-4">
+          Join us for the ultimate technology experience
         </p>
       </header>
 
@@ -68,21 +75,21 @@ const Index = () => {
         {/* Stats Section */}
         <div className="py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-blue-400">500+</div>
-              <div className="text-slate-300">Participants</div>
+            <div className="p-6 rounded-lg bg-card border border-border hover:shadow-lg transition-all">
+              <div className="text-3xl font-bold gradient-text">500+</div>
+              <div className="text-muted-foreground">Participants</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-blue-400">5</div>
-              <div className="text-slate-300">Events</div>
+            <div className="p-6 rounded-lg bg-card border border-border hover:shadow-lg transition-all">
+              <div className="text-3xl font-bold gradient-text">5</div>
+              <div className="text-muted-foreground">Events</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-blue-400">48</div>
-              <div className="text-slate-300">Hours</div>
+            <div className="p-6 rounded-lg bg-card border border-border hover:shadow-lg transition-all">
+              <div className="text-3xl font-bold gradient-text">48</div>
+              <div className="text-muted-foreground">Hours</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-blue-400">₹50K</div>
-              <div className="text-slate-300">Prize Pool</div>
+            <div className="p-6 rounded-lg bg-card border border-border hover:shadow-lg transition-all">
+              <div className="text-3xl font-bold gradient-text">₹50K</div>
+              <div className="text-muted-foreground">Prize Pool</div>
             </div>
           </div>
         </div>
@@ -90,8 +97,8 @@ const Index = () => {
         {/* About Section */}
         <section className="py-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">About Jet Potential '25</h2>
-            <p className="text-slate-300 max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold gradient-text mb-4">About Jet Potential '25</h2>
+            <p className="text-muted-foreground max-w-3xl mx-auto">
               Jet Potential '25 is a premier technology event that brings together students, professionals, 
               and industry leaders to explore, learn, and innovate. Join us for an exciting journey of 
               discovery, competition, and networking in the world of technology.
@@ -102,8 +109,8 @@ const Index = () => {
         {/* Events Section */}
         <section className="py-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Events</h2>
-            <p className="text-slate-300">Click on any event to learn more</p>
+            <h2 className="text-3xl font-bold gradient-text mb-4">Events</h2>
+            <p className="text-muted-foreground">Click on any event to learn more</p>
           </div>
           
           <div className="space-y-4 max-w-4xl mx-auto">
@@ -123,7 +130,7 @@ const Index = () => {
         <GallerySection />
       </div>
       
-      <footer className="py-8 border-t border-slate-800 text-center text-sm text-slate-500">
+      <footer className="py-8 border-t border-border text-center text-sm text-muted-foreground">
         <p>© 2025 Jet Potential. All rights reserved.</p>
       </footer>
     </div>

@@ -10,13 +10,13 @@ const GallerySection = () => {
   return (
     <section className="py-16">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-white mb-4">Gallery</h2>
-        <p className="text-slate-300">Highlights from last year's Jet Potential event</p>
+        <h2 className="text-3xl font-bold gradient-text mb-4">Gallery</h2>
+        <p className="text-muted-foreground">Highlights from last year's Jet Potential event</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {galleryImages.map((imageId, index) => (
-          <div key={index} className="group overflow-hidden rounded-lg bg-slate-800">
+          <div key={index} className="group overflow-hidden rounded-lg bg-card border border-border hover:shadow-lg transition-all">
             <img
               src={`https://images.unsplash.com/${imageId}?w=500&h=300&fit=crop`}
               alt={`Jet Potential event ${index + 1}`}

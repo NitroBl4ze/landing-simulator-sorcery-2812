@@ -33,23 +33,23 @@ const CountdownTimer = () => {
 
   return (
     <div className="text-center py-12">
-      <h2 className="text-2xl font-bold text-white mb-8">Event Countdown</h2>
+      <h2 className="text-2xl font-bold gradient-text mb-8">Event Countdown</h2>
       <div className="flex justify-center gap-8 flex-wrap">
-        <div className="bg-gradient-to-b from-blue-600 to-blue-800 rounded-lg p-6 min-w-[100px]">
+        <div className="btn-glow rounded-lg p-6 min-w-[100px]">
           <div className="text-3xl font-bold text-white">{timeLeft.days}</div>
-          <div className="text-sm text-blue-200">DAYS</div>
+          <div className="text-sm text-gray-200">DAYS</div>
         </div>
-        <div className="bg-gradient-to-b from-blue-600 to-blue-800 rounded-lg p-6 min-w-[100px]">
-          <div className="text-3xl font-bold text-white">{timeLeft.hours}</div>
-          <div className="text-sm text-blue-200">HOURS</div>
+        <div className="btn-gold-glow rounded-lg p-6 min-w-[100px]">
+          <div className="text-3xl font-bold text-black">{timeLeft.hours}</div>
+          <div className="text-sm text-gray-700">HOURS</div>
         </div>
-        <div className="bg-gradient-to-b from-blue-600 to-blue-800 rounded-lg p-6 min-w-[100px]">
+        <div className="btn-glow rounded-lg p-6 min-w-[100px]">
           <div className="text-3xl font-bold text-white">{timeLeft.minutes}</div>
-          <div className="text-sm text-blue-200">MINUTES</div>
+          <div className="text-sm text-gray-200">MINUTES</div>
         </div>
-        <div className="bg-gradient-to-b from-blue-600 to-blue-800 rounded-lg p-6 min-w-[100px]">
-          <div className="text-3xl font-bold text-white">{timeLeft.seconds}</div>
-          <div className="text-sm text-blue-200">SECONDS</div>
+        <div className="btn-gold-glow rounded-lg p-6 min-w-[100px]">
+          <div className="text-3xl font-bold text-black">{timeLeft.seconds}</div>
+          <div className="text-sm text-gray-700">SECONDS</div>
         </div>
       </div>
     </div>
