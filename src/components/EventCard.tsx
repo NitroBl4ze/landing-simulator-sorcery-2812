@@ -7,9 +7,10 @@ interface EventCardProps {
   icon: React.ReactNode;
   description: string;
   details: string;
+  rules?: string[];
 }
 
-const EventCard = ({ title, icon, description, details }: EventCardProps) => {
+const EventCard = ({ title, icon, description, details, rules }: EventCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -23,7 +24,7 @@ const EventCard = ({ title, icon, description, details }: EventCardProps) => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-                <p className="text-sm text-muted-foreground">{description}</p>
+                {description && <p className="text-sm text-muted-foreground">{description}</p>}
               </div>
             </div>
             {isOpen ? (
@@ -35,9 +36,19 @@ const EventCard = ({ title, icon, description, details }: EventCardProps) => {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="px-6 pb-6 pt-2">
-            <div className="text-muted-foreground leading-relaxed">
+            <div className="text-muted-foreground leading-relaxed mb-4">
               {details}
             </div>
+            {rules && (
+              <div>
+                <h4 className="font-semibold text-foreground mb-2">Rules:</h4>
+                <ul className="text-muted-foreground space-y-1">
+                  {rules.map((rule, index) => (
+                    <li key={index} className="text-sm">• {rule}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </CollapsibleContent>
       </div>

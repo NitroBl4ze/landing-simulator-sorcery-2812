@@ -9,7 +9,7 @@ const CountdownTimer = () => {
   });
 
   useEffect(() => {
-    const targetDate = new Date('2025-08-30T00:00:00').getTime();
+    const targetDate = new Date('2025-08-28T00:00:00').getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
@@ -51,6 +51,12 @@ const CountdownTimer = () => {
           <div className="text-3xl font-bold text-black">{timeLeft.seconds}</div>
           <div className="text-sm text-gray-700">SECONDS</div>
         </div>
+      </div>
+      
+      {/* Registration Dates */}
+      <div className="text-center mt-8 space-y-2">
+        <p className="text-muted-foreground">Last date for registration: 25-09-2024</p>
+        <p className="text-muted-foreground">Intimation of selection: 26-09-2024 (Only through e-mail)</p>
       </div>
     </div>
   );
