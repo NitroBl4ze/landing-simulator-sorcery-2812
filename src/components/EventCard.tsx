@@ -2,127 +2,61 @@ import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  text: string;
-  size: number;
-  opacity: number;
+interface Event {
+  title: string;
+  icon: JSX.Element;
+  description: string;
+  details: string;
+  rules?: string[];
 }
 
-const MotionBackground = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  
-  const techTexts = [
-    'INNOVATION', 'TECHNOLOGY', 'FUTURE', 'CODE', 'DIGITAL', 'AI', 'ML', 'BLOCKCHAIN',
-    'QUANTUM', 'ROBOTICS', 'IoT', 'CLOUD', 'DATA', 'CYBER', 'VIRTUAL', 'AUGMENTED',
-    'NEURAL', 'COMPUTING', 'ALGORITHM', 'PROGRAMMING', 'SOFTWARE', 'HARDWARE',
-    'ENGINEERING', 'DEVELOPMENT', 'CREATION', 'BREAKTHROUGH', 'REVOLUTION'
-  ];
+interface EventCardProps {
+  event: Event;
+}
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Set canvas size
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // Create particles
-    const particles: Particle[] = [];
-    for (let i = 0; i < 50; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        text: techTexts[Math.floor(Math.random() * techTexts.length)],
-        size: Math.random() * 20 + 10,
-        opacity: Math.random() * 0.3 + 0.1
-      });
-    }
-
-    // Animation loop
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((particle) => {
-        // Mouse interaction
-        const dx = mousePos.x - particle.x;
-        const dy = mousePos.y - particle.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 150) {
-          const force = (150 - distance) / 150;
-          particle.vx += (dx / distance) * force * 0.02;
-          particle.vy += (dy / distance) * force * 0.02;
-          particle.opacity = Math.min(0.8, particle.opacity + force * 0.01);
-        } else {
-          particle.opacity = Math.max(0.1, particle.opacity - 0.005);
-        }
-
-        // Update position
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        // Damping
-        particle.vx *= 0.99;
-        particle.vy *= 0.99;
-
-        // Wrap around edges
-        if (particle.x < -50) particle.x = canvas.width + 50;
-        if (particle.x > canvas.width + 50) particle.x = -50;
-        if (particle.y < -50) particle.y = canvas.height + 50;
-        if (particle.y > canvas.height + 50) particle.y = -50;
-
-        // Draw particle
-        ctx.save();
-        ctx.globalAlpha = particle.opacity;
-        ctx.font = `${particle.size}px 'Arial', sans-serif`;
-        ctx.fillStyle = distance < 150 ? '#f7f2d8ff' : '#000000ff'; // Gold when near cursor, red otherwise
-        ctx.textAlign = 'center';
-        ctx.fillText(particle.text, particle.x, particle.y);
-        ctx.restore();
-      });
-
-      requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  }, [mousePos]);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (rect) {
-      setMousePos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      });
-    }
-  };
+const EventCard = ({ event }: EventCardProps) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <canvas
-      ref={canvasRef}
-      onMouseMove={handleMouseMove}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: 'transparent' }}
-    />
+    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 hover:bg-white/10 transition-all duration-300">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-xl font-bold text-white">{event.title}</h3>
+        <span className="text-2xl">{event.icon}</span>
+      </div>
+      
+      <p className="text-gray-300 mb-4">{event.description}</p>
+      
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-white/5 rounded-md hover:bg-white/10 transition-colors">
+          <span className="text-white font-medium">View Details</span>
+          {isOpen ? (
+            <ChevronUp className="h-4 w-4 text-white" />
+          ) : (
+            <ChevronDown className="h-4 w-4 text-white" />
+          )}
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-4 space-y-4">
+          <div className="p-4 bg-white/5 rounded-md">
+            <h4 className="font-semibold text-white mb-2">Description:</h4>
+            <p className="text-gray-300">{event.details}</p>
+          </div>
+          
+          {event.rules && event.rules.length > 0 && (
+            <div className="p-4 bg-white/5 rounded-md">
+              <h4 className="font-semibold text-white mb-2">Rules:</h4>
+              <ul className="space-y-1">
+                {event.rules.map((rule, index) => (
+                  <li key={index} className="text-gray-300 text-sm">
+                    {rule}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
   );
 };
 
-export default MotionBackground;
+export default EventCard;

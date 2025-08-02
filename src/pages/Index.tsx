@@ -181,11 +181,7 @@ const Index = () => {
               {events.map((event, index) => (
                 <EventCard
                   key={index}
-                  title={event.title}
-                  icon={event.icon}
-                  description={event.description}
-                  details={event.details}
-                  rules={event.rules}
+                  event={event}
                 />
               ))}
             </div>
