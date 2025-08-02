@@ -5,7 +5,7 @@
 @layer base {
   :root {
     /* Jet Potential Color Scheme */
-    --background: 0 0% 3%; /* Deep black */
+    --background: 0 0% 0%; /* Pure black background */
     --foreground: 0 0% 98%; /* Pure white */
     --card: 0 0% 8%;
     --card-foreground: 0 0% 98%;
@@ -44,7 +44,7 @@
   }
 
   .dark {
-    --background: 0 0% 3%;
+    --background: 0 0% 0%;
     --foreground: 0 0% 98%;
     --card: 0 0% 8%;
     --card-foreground: 0 0% 98%;
@@ -84,28 +84,43 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+* {
+  @apply border-border;
+}
 
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+body {
+  @apply bg-background text-foreground;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  background-color: hsl(0 0% 0%) !important; /* Pure black background */
+}
+
+/* Reset all text backgrounds */
+*, *::before, *::after {
+  background-color: transparent !important;
+}
 }
 
 /* Jet Potential Gradient Text */
 .gradient-text {
   @apply bg-clip-text text-transparent;
-  background: linear-gradient(135deg, hsl(var(--jet-red)), hsl(var(--jet-gold)));
+  background: linear-gradient(135deg, hsl(var(--jet-red)), hsl(var(--jet-gold))) !important;
   background-color: transparent !important;
 }
 
 /* Remove background fills from all text elements */
 .text-foreground,
 .text-muted-foreground,
-h1, h2, h3, h4, h5, h6, p, span, div {
+h1, h2, h3, h4, h5, h6, p, span, div, button {
   background-color: transparent !important;
+}
+
+/* Ensure cards and components have proper backgrounds */
+.bg-card {
+  background-color: hsl(var(--card)) !important;
+}
+
+.bg-background {
+  background-color: hsl(0 0% 0%) !important;
 }
 
 /* Glowing Button Effects */
