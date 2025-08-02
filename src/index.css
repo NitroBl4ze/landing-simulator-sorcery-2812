@@ -110,8 +110,29 @@ body {
 /* Remove background fills from all text elements */
 .text-foreground,
 .text-muted-foreground,
-h1, h2, h3, h4, h5, h6, p, span, div, button {
+h1, h2, h3, h4, h5, h6, p, span, div, button, li, ul, ol {
   background-color: transparent !important;
+}
+
+/* Remove text selection backgrounds */
+::selection {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+::-moz-selection {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+/* Remove focus outlines that might appear as orange rectangles */
+* {
+  outline: none !important;
+}
+
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Ensure cards and components have proper backgrounds */
