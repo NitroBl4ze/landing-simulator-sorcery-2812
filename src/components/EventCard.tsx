@@ -2,58 +2,127 @@ import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-interface EventCardProps {
-  title: string;
-  icon: React.ReactNode;
-  description: string;
-  details: string;
-  rules?: string[];
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  text: string;
+  size: number;
+  opacity: number;
 }
 
-const EventCard = ({ title, icon, description, details, rules }: EventCardProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+const MotionBackground = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  
+  const techTexts = [
+    'INNOVATION', 'TECHNOLOGY', 'FUTURE', 'CODE', 'DIGITAL', 'AI', 'ML', 'BLOCKCHAIN',
+    'QUANTUM', 'ROBOTICS', 'IoT', 'CLOUD', 'DATA', 'CYBER', 'VIRTUAL', 'AUGMENTED',
+    'NEURAL', 'COMPUTING', 'ALGORITHM', 'PROGRAMMING', 'SOFTWARE', 'HARDWARE',
+    'ENGINEERING', 'DEVELOPMENT', 'CREATION', 'BREAKTHROUGH', 'REVOLUTION'
+  ];
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Create particles
+    const particles: Particle[] = [];
+    for (let i = 0; i < 50; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        text: techTexts[Math.floor(Math.random() * techTexts.length)],
+        size: Math.random() * 20 + 10,
+        opacity: Math.random() * 0.3 + 0.1
+      });
+    }
+
+    // Animation loop
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((particle) => {
+        // Mouse interaction
+        const dx = mousePos.x - particle.x;
+        const dy = mousePos.y - particle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 150) {
+          const force = (150 - distance) / 150;
+          particle.vx += (dx / distance) * force * 0.02;
+          particle.vy += (dy / distance) * force * 0.02;
+          particle.opacity = Math.min(0.8, particle.opacity + force * 0.01);
+        } else {
+          particle.opacity = Math.max(0.1, particle.opacity - 0.005);
+        }
+
+        // Update position
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        // Damping
+        particle.vx *= 0.99;
+        particle.vy *= 0.99;
+
+        // Wrap around edges
+        if (particle.x < -50) particle.x = canvas.width + 50;
+        if (particle.x > canvas.width + 50) particle.x = -50;
+        if (particle.y < -50) particle.y = canvas.height + 50;
+        if (particle.y > canvas.height + 50) particle.y = -50;
+
+        // Draw particle
+        ctx.save();
+        ctx.globalAlpha = particle.opacity;
+        ctx.font = `${particle.size}px 'Arial', sans-serif`;
+        ctx.fillStyle = distance < 150 ? '#f7f2d8ff' : '#000000ff'; // Gold when near cursor, red otherwise
+        ctx.textAlign = 'center';
+        ctx.fillText(particle.text, particle.x, particle.y);
+        ctx.restore();
+      });
+
+      requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, [mousePos]);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (rect) {
+      setMousePos({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+    }
+  };
 
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <div className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all">
-        <CollapsibleTrigger className="w-full p-6 text-left hover:bg-muted/50 transition-colors btn-glow">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="text-secondary">
-                {icon}
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-                {description && <p className="text-sm text-muted-foreground">{description}</p>}
-              </div>
-            </div>
-            {isOpen ? (
-              <ChevronUp className="w-5 h-5 text-muted-foreground" />
-            ) : (
-              <ChevronDown className="w-5 h-5 text-muted-foreground" />
-            )}
-          </div>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="px-6 pb-6 pt-2">
-            <div className="text-muted-foreground leading-relaxed mb-4">
-              {details}
-            </div>
-            {rules && (
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">Rules:</h4>
-                <ul className="text-muted-foreground space-y-1">
-                  {rules.map((rule, index) => (
-                    <li key={index} className="text-sm">• {rule}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </CollapsibleContent>
-      </div>
-    </Collapsible>
+    <canvas
+      ref={canvasRef}
+      onMouseMove={handleMouseMove}
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ background: 'transparent' }}
+    />
   );
 };
 
-export default EventCard;
+export default MotionBackground;
