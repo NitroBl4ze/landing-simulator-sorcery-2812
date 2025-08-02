@@ -87,7 +87,7 @@ const MotionBackground = () => {
         ctx.save();
         ctx.globalAlpha = particle.opacity;
         ctx.font = `${particle.size}px 'Arial', sans-serif`;
-        ctx.fillStyle = distance < 150 ? '#FFD700' : '#DC2626'; // Gold when near cursor, red otherwise
+        ctx.fillStyle = distance < 150 ? '#000000' : '#00000'; // Gold when near cursor, red otherwise
         ctx.textAlign = 'center';
         ctx.fillText(particle.text, particle.x, particle.y);
         ctx.restore();
